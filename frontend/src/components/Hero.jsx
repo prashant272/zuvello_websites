@@ -18,6 +18,8 @@ const Hero = () => {
           loop
           muted
           playsInline
+          preload="auto"
+          poster="/combo_plushies.png"
           className="absolute inset-0 w-full h-full z-0 object-cover object-center"
         >
           <source src="/hero.mp4" type="video/mp4" />
