@@ -22,7 +22,7 @@ const Hero = () => {
           poster="/combo_plushies.png"
           className="absolute inset-0 w-full h-full z-0 object-cover object-center"
         >
-          <source src="/hero.mp4" type="video/mp4" />
+          <source src="https://pdf-storage-prime.s3.eu-north-1.amazonaws.com/hero.mp4" type="video/mp4" />
         </video>
 
         {/* Main Content Container */}
