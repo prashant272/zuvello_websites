@@ -12,7 +12,7 @@ const OffersPage = () => {
         const fetchOffers = async () => {
             try {
                 const { data } = await axios.get('/api/coupons');
-                setOffers(data);
+                setOffers(Array.isArray(data) ? data : []);
             } catch (error) {
                 console.error('Failed to fetch offers:', error);
             } finally {

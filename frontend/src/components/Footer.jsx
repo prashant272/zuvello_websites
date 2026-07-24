@@ -6,6 +6,8 @@ import { API_BASE_URL } from '../api';
 
 const Footer = () => {
     const [categories, setCategories] = useState([]);
+    const [email, setEmail] = useState('');
+    const [subscribed, setSubscribed] = useState(false);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -58,15 +60,31 @@ const Footer = () => {
                                 </p>
                             </div>
                         </div>
-                        <div className="flex w-full md:w-auto flex-1 max-w-lg bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100">
-                            <input 
-                                type="email" 
-                                placeholder="Enter your email" 
-                                className="flex-1 px-5 py-3 outline-none text-sm text-[#483d36] placeholder:text-gray-400"
-                            />
-                            <button className="bg-[#cf7e28] hover:bg-[#b56e22] transition-colors text-white px-6 md:px-8 py-3 font-bold text-sm">
-                                Subscribe
-                            </button>
+                        <div className="flex flex-col w-full md:w-auto flex-1 max-w-lg">
+                            <div className="flex bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100">
+                                <input 
+                                    type="email" 
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    placeholder="Enter your email" 
+                                    className="flex-1 px-5 py-3 outline-none text-sm text-[#483d36] placeholder:text-gray-400"
+                                />
+                                <button 
+                                    onClick={() => {
+                                        if(email) {
+                                            setSubscribed(true);
+                                            setEmail('');
+                                            setTimeout(() => setSubscribed(false), 3000);
+                                        }
+                                    }}
+                                    className="bg-[#cf7e28] hover:bg-[#b56e22] transition-colors text-white px-6 md:px-8 py-3 font-bold text-sm"
+                                >
+                                    Subscribe
+                                </button>
+                            </div>
+                            {subscribed && (
+                                <span className="text-green-600 text-xs font-bold mt-2 ml-2">Successfully Subscribed! 🎉</span>
+                            )}
                         </div>
                     </div>
 
@@ -144,13 +162,17 @@ const Footer = () => {
                         <div className="flex flex-col pl-0 md:pl-2">
                             <h4 className="text-sm font-bold text-[#483d36] mb-5">Contact Us</h4>
                             <ul className="flex flex-col gap-4">
-                                <li className="flex items-center gap-3">
-                                    <Phone size={16} className="text-[#cf7e28] shrink-0" />
-                                    <span className="text-xs font-medium text-[#483d36]">+91 88827 27504</span>
+                                <li className="flex items-start gap-3">
+                                    <Phone size={16} className="text-[#cf7e28] shrink-0 mt-1" />
+                                    <div className="flex flex-col">
+                                        <span className="text-[10px] font-bold text-[#cf7e28] uppercase tracking-wider mb-0.5">Proprietor</span>
+                                        <span className="text-[12px] font-bold text-[#483d36]">Sachin : +91 8506847545</span>
+                                        <span className="text-[12px] font-bold text-[#483d36]">Chaitanya : +91 8882727504</span>
+                                    </div>
                                 </li>
                                 <li className="flex items-center gap-3">
                                     <MessageCircle size={16} className="text-[#cf7e28] shrink-0" />
-                                    <span className="text-xs font-medium text-[#483d36]">zuvello@gmail.com</span>
+                                    <span className="text-xs font-medium text-[#483d36]">zuvello874@gmail.com</span>
                                 </li>
                                 <li className="flex items-start gap-3">
                                     <MapPin size={16} className="text-[#cf7e28] shrink-0 mt-0.5" />

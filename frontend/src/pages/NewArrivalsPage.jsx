@@ -10,7 +10,7 @@ import SEO from '../components/SEO';
 const NewArrivalsProductCard = ({ product }) => {
     const { _id, slug, name, price, images, rating = 4.8 } = product;
     const { addToCart } = useCart();
-    const originalPrice = price + Math.floor(price * 0.4);
+    const originalPrice = price === 699 ? 1299 : price === 698 ? 1299 : price + Math.floor(price * 0.86);
 
     return (
     <div className="bg-white rounded-[16px] overflow-hidden border border-gray-100 flex flex-col group transition-shadow hover:shadow-md h-full relative">

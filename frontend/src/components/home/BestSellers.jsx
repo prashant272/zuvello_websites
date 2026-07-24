@@ -105,7 +105,7 @@ const BestSellers = () => {
                 if (productsData.length > 0) {
                      const formatted = productsData.map(p => ({
                          ...p,
-                         originalPrice: p.price + Math.floor(p.price * 0.4),
+                         originalPrice: p.price === 699 ? 1299 : p.price === 698 ? 1299 : p.price + Math.floor(p.price * 0.86),
                          discount: '40% OFF',
                          rating: 4.8,
                          image: p.images && p.images[0] ? encodeURI(p.images[0]) : mockProducts[0].image
@@ -160,7 +160,7 @@ const BestSellers = () => {
                         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                     >
                         {displayProducts.map((product, index) => {
-                            const originalPrice = product.originalPrice || product.price + Math.floor(product.price * 0.4);
+                            const originalPrice = product.originalPrice || product.price === 699 ? 1299 : product.price === 698 ? 1299 : product.price + Math.floor(product.price * 0.86);
                             const discount = Math.round(((originalPrice - product.price) / originalPrice) * 100);
 
                             return (

@@ -6,6 +6,7 @@ import EnquiryManagement from './EnquiryManagement';
 import ProductManagement from './ProductManagement';
 import CategoryManagement from './CategoryManagement';
 import OfferManagement from './OfferManagement';
+import InstagramManagement from './InstagramManagement';
 import SEO from '../../components/SEO';
 
 const AdminDashboard = () => {
@@ -53,6 +54,9 @@ const AdminDashboard = () => {
 
             case 'offers':
                 return <OfferManagement />;
+
+            case 'instagram':
+                return <InstagramManagement />;
 
             case 'enquiries':
                 return <EnquiryManagement />;

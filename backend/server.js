@@ -11,6 +11,7 @@ import adminRoutes from "./routes/adminRoutes.js";
 import enquiryRoutes from "./routes/enquiryRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import couponRoutes from "./routes/couponRoutes.js";
+import instagramRoutes from "./routes/instagramRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -49,8 +50,9 @@ app.use("/api/enquiry", enquiryRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/coupons", couponRoutes);
+app.use("/api/instagram", instagramRoutes);
 
-console.log('✅ Routes mounted: /api/auth, /api/products, /api/blogs, /api/orders, /api/upload, /api/admin, /api/enquiry, /api/coupons');
+console.log('✅ Routes mounted: /api/auth, /api/products, /api/blogs, /api/orders, /api/upload, /api/admin, /api/enquiry, /api/coupons, /api/instagram');
 
 
 const PORT = process.env.PORT || 5000;

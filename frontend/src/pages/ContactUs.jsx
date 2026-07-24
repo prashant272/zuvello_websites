@@ -39,8 +39,9 @@ const ContactUs = () => {
                                     <Phone size={24} />
                                 </div>
                                 <div>
-                                    <h4 className="font-bold text-[#1c1c1c]">Call Us</h4>
-                                    <p className="text-[#483d36] mt-1">+91 88827 27504, +91 85068 47545</p>
+                                    <h4 className="font-bold text-[#1c1c1c] mb-1">Call Us (Proprietor)</h4>
+                                    <p className="text-[#483d36] font-medium text-sm">Sachin : +91 8506847545</p>
+                                    <p className="text-[#483d36] font-medium text-sm">Chaitanya : +91 8882727504</p>
                                 </div>
                             </div>
                             
@@ -50,7 +51,7 @@ const ContactUs = () => {
                                 </div>
                                 <div>
                                     <h4 className="font-bold text-[#1c1c1c]">Email Us</h4>
-                                    <p className="text-[#483d36] mt-1">zuvello@gmail.com</p>
+                                    <p className="text-[#483d36] mt-1">zuvello874@gmail.com</p>
                                 </div>
                             </div>
                             

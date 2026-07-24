@@ -19,7 +19,7 @@ const OfferManagement = () => {
             const token = localStorage.getItem('adminToken');
             const config = { headers: { Authorization: `Bearer ${token}` } };
             const { data } = await axios.get('/api/coupons/admin', config);
-            setCoupons(data);
+            setCoupons(Array.isArray(data) ? data : []);
             setLoading(false);
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to load coupons');

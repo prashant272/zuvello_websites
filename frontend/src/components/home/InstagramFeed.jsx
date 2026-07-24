@@ -1,50 +1,40 @@
-import React, { useRef } from 'react';
-import { Heart, ArrowRight, Play, Instagram } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Heart, ArrowRight, Play, Instagram, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
-// Dummy data for Instagram Feed
-const instagramPosts = [
-  {
-    id: 1,
-    image: 'https://images.unsplash.com/photo-1559454403-b8fb88521f11?auto=format&fit=crop&w=400&q=80',
-    title: 'Cutest BFF\nForever 💞',
-    link: 'https://instagram.com',
-  },
-  {
-    id: 2,
-    image: 'https://images.unsplash.com/photo-1585644781431-778832a82989?auto=format&fit=crop&w=400&q=80',
-    title: 'Cuddle Time\nIs Happy Time',
-    link: 'https://instagram.com',
-  },
-  {
-    id: 3,
-    image: 'https://images.unsplash.com/photo-1557313885-48b4e758a623?auto=format&fit=crop&w=400&q=80',
-    title: "Softness You'll\nFall in Love 🌙",
-    link: 'https://instagram.com',
-  },
-  {
-    id: 4,
-    image: 'https://images.unsplash.com/photo-1533000755675-9252327494ce?auto=format&fit=crop&w=400&q=80',
-    title: 'Magical\nUnicorns ✨',
-    link: 'https://instagram.com',
-  },
-  {
-    id: 5,
-    image: 'https://images.unsplash.com/photo-1608889476561-6242cb816d12?auto=format&fit=crop&w=400&q=80',
-    title: 'Perfect\nGift 🎁',
-    link: 'https://instagram.com',
-  },
-  {
-    id: 6,
-    image: 'https://images.unsplash.com/photo-1518717758536-f3af4d6faa6b?auto=format&fit=crop&w=400&q=80',
-    title: 'Snuggle\nWeather ☁️',
-    link: 'https://instagram.com',
-  },
-];
+import axios from 'axios';
 
 const InstagramFeed = () => {
+  const [reels, setReels] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchReels = async () => {
+      try {
+        const { data } = await axios.get('/api/instagram');
+        if (Array.isArray(data) && data.length > 0) {
+          const mappedReels = data.map(reel => ({
+            id: reel._id,
+            image: reel.image,
+            title: reel.title,
+            link: reel.link
+          }));
+          setReels(mappedReels);
+        }
+      } catch (error) {
+        console.error('Failed to fetch Instagram reels:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReels();
+  }, []);
+
+  if (loading) return <div className="py-12 text-center text-gray-500">Loading Instagram Feed...</div>;
+  if (!loading && reels.length === 0) return null; // Don't show section if no reels exist
+
   return (
-    <section className="py-6 md:py-12 bg-white font-sans border-b border-gray-50">
+    <section className="py-6 md:py-12 bg-white font-sans border-b border-gray-50 relative">
       <div className="max-w-[1400px] mx-auto px-4 md:px-8 lg:px-12 relative">
         
         {/* Section Header */}
@@ -71,7 +61,7 @@ const InstagramFeed = () => {
             className="flex overflow-x-auto gap-2 md:gap-4 pb-4 -mx-2 px-2 scrollbar-hide snap-x snap-mandatory"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
-          {instagramPosts.map((post) => (
+          {reels.map((post) => (
             <InstaCard key={post.id} post={post} />
           ))}
         </div>
@@ -88,7 +78,7 @@ const InstaCard = ({ post }) => {
       href={post.link}
       target="_blank"
       rel="noopener noreferrer"
-      className="w-[23%] md:w-[calc(100%/5-16px)] lg:w-[calc(100%/6-16px)] flex-none snap-start flex flex-col gap-2 group transform hover:-translate-y-1 transition-all duration-300"
+      className="w-[23%] text-left md:w-[calc(100%/5-16px)] lg:w-[calc(100%/6-16px)] flex-none snap-start flex flex-col gap-2 group transform hover:-translate-y-1 transition-all duration-300"
     >
       <div className="relative w-full aspect-[9/16] rounded-[16px] md:rounded-[20px] overflow-hidden shadow-sm border border-gray-100">
         {/* Background Image (Thumbnail) */}

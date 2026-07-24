@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ChevronRight, Star, Heart, Share2, Plus, Minus, RotateCcw, ShieldCheck, CreditCard, CheckCircle2, ChevronUp, ChevronDown } from 'lucide-react';
 import { API_BASE_URL } from '../api';
@@ -9,6 +9,7 @@ import SEO from '../components/SEO';
 
 const ProductDetails = () => {
     const { slug } = useParams();
+    const navigate = useNavigate();
     const { addToCart } = useCart();
     const { toggleWishlist, isInWishlist } = useWishlist();
     
@@ -20,7 +21,6 @@ const ProductDetails = () => {
     const [selectedImage, setSelectedImage] = useState(0);
     const [selectedSize, setSelectedSize] = useState('');
     const [quantity, setQuantity] = useState(1);
-    const [pincode, setPincode] = useState('');
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -60,11 +60,22 @@ const ProductDetails = () => {
     }
 
     const images = product.images?.length > 0 ? product.images : ['https://via.placeholder.com/600'];
-    const originalPrice = product.price + Math.floor(product.price * 0.4);
+    const originalPrice = product.price === 699 ? 1299 : product.price === 698 ? 1299 : product.price + Math.floor(product.price * 0.86);
     const discount = Math.round(((originalPrice - product.price) / originalPrice) * 100);
 
     const handleAddToCart = () => {
         addToCart({ ...product, selectedSize, quantity });
+    };
+
+    const handleBuyNow = () => {
+        addToCart({ ...product, selectedSize, quantity });
+        
+        const userInfo = localStorage.getItem('userInfo');
+        if (userInfo) {
+            navigate('/checkout/address');
+        } else {
+            navigate('/login?redirect=/checkout/address');
+        }
     };
 
     return (
@@ -188,7 +199,7 @@ const ProductDetails = () => {
                             >
                                 Add to Cart
                             </button>
-                            <button className="flex-1 bg-white hover:bg-gray-50 text-[#1c1c1c] border-2 border-gray-200 font-bold py-3 rounded-xl transition-all">
+                            <button onClick={handleBuyNow} className="flex-1 bg-white hover:bg-gray-50 text-[#1c1c1c] border-2 border-gray-200 font-bold py-3 rounded-xl transition-all">
                                 Buy Now
                             </button>
                         </div>
@@ -208,23 +219,6 @@ const ProductDetails = () => {
                     </div>
 
                     <div className="w-full lg:w-[20%] flex flex-col gap-6">
-                        <div className="bg-[#fcfaf6] rounded-[16px] p-5 border border-[#f5eadb]/80">
-                            <h3 className="font-bold text-[#1c1c1c] mb-2 text-[14px]">Delivery</h3>
-                            <p className="text-[12px] text-gray-500 mb-4 font-medium leading-relaxed">Enter pincode to check delivery date</p>
-                            
-                            <div className="flex border border-gray-200 rounded-lg overflow-hidden bg-white h-11">
-                                <input 
-                                    type="text" 
-                                    placeholder="Enter Pincode" 
-                                    value={pincode}
-                                    onChange={(e) => setPincode(e.target.value)}
-                                    className="w-full px-3 text-[13px] outline-none text-gray-700"
-                                />
-                                <button className="px-4 text-[13px] font-bold text-gray-700 border-l border-gray-200 hover:bg-gray-50 transition-colors">
-                                    Check
-                                </button>
-                            </div>
-                        </div>
 
                         <div className="bg-[#fcfaf6] rounded-[16px] p-5 border border-[#f5eadb]/80 flex flex-col gap-4">
                             <div className="flex items-center gap-3 text-[13px] font-bold text-gray-700">

@@ -42,7 +42,7 @@ const NewArrivals = () => {
         if (data.length > 0) {
             const formatted = data.map(p => ({
                 ...p,
-                originalPrice: p.price + Math.floor(p.price * 0.2),
+                originalPrice: p.price === 699 ? 1299 : p.price === 698 ? 1299 : p.price + Math.floor(p.price * 0.86),
                 rating: 4.8,
                 image: p.images && p.images[0] ? encodeURI(p.images[0]) : dummyProducts[0].image,
                 isNew: true
@@ -109,7 +109,7 @@ const NewArrivals = () => {
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {products.map((product, index) => {
-              const originalPrice = product.originalPrice || product.price + Math.floor(product.price * 0.4);
+              const originalPrice = product.originalPrice || product.price === 699 ? 1299 : product.price === 698 ? 1299 : product.price + Math.floor(product.price * 0.86);
               const discount = Math.round(((originalPrice - product.price) / originalPrice) * 100);
 
               return (

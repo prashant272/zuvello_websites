@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LayoutDashboard, FileText, Users, LogOut, Menu, X, MessageSquare, Inbox, ShoppingBag, Grid2X2, Tag } from 'lucide-react';
+import { LayoutDashboard, FileText, Users, LogOut, Menu, X, MessageSquare, Inbox, ShoppingBag, Grid2X2, Tag, Instagram } from 'lucide-react';
 import { logoutAdmin } from '../../utils/auth';
 
 const AdminSidebar = ({ activeTab, setActiveTab }) => {
@@ -13,6 +13,7 @@ const AdminSidebar = ({ activeTab, setActiveTab }) => {
         { id: 'products', label: 'Products', icon: ShoppingBag },
         { id: 'orders', label: 'Orders', icon: MessageSquare }, // Using MessageSquare for now or import Package
         { id: 'offers', label: 'Offers', icon: Tag },
+        { id: 'instagram', label: 'Instagram Reels', icon: Instagram },
         { id: 'blogs', label: 'Blog Posts', icon: FileText },
         { id: 'enquiries', label: 'Enquiries', icon: Inbox },
         { id: 'users', label: 'User Details', icon: Users },
