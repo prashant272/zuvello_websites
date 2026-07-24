@@ -93,12 +93,11 @@ const Footer = () => {
                         
                         {/* 1. Brand & About */}
                         <div className="flex flex-col md:col-span-1 border-b md:border-b-0 md:border-r border-pink-100 pb-6 md:pb-0 pr-0 md:pr-4">
-                            <Link to="/" className="flex items-center gap-2 mb-4">
-                                <span className="text-3xl">🐻</span>
-                                <div className="flex flex-col justify-center">
-                                    <h1 className="text-[17px] font-extrabold text-[#483d36] leading-none tracking-tight">Zuvello</h1>
-                                    <p className="text-[9px] text-[#8c7b72] font-semibold mt-1">Bringing Smiles, Everytime!</p>
-                                </div>
+                            <Link to="/" className="flex flex-col items-start gap-3 mb-6">
+                                <img src="/logo.png" alt="Zuvello Logo" className="h-24 md:h-28 object-contain rounded-full shadow-md border border-gray-100" />
+                                <p className="text-[11px] md:text-[12px] font-black text-[#1c1c1c] uppercase tracking-wide ml-1 whitespace-nowrap">
+                                    A Unit of Manasvi Enterprises
+                                </p>
                             </Link>
                             <p className="text-xs text-gray-600 font-medium leading-relaxed mb-6">
                                 Premium soft toys for kids and loved ones. Because every hug matters!
