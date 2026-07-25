@@ -26,6 +26,15 @@ const Categories = () => {
     { name: "More", isIcon: true, link: "/collections" }
   ];
 
+  const getCategoryLink = (item) => {
+    if (item.name === "More") return item.link;
+    // Override if link is missing or looks like an invalid /shop/category route
+    if (!item.link || item.link.startsWith('/shop/')) {
+        return `/shop?category=${encodeURIComponent(item.name)}`;
+    }
+    return item.link;
+  };
+
   return (
     <section className="py-6 md:py-12 bg-white font-sans border-b border-gray-50">
       <div className="max-w-[1400px] mx-auto px-4 md:px-8 lg:px-12">
@@ -52,7 +61,7 @@ const Categories = () => {
           {collections.map((item, index) => (
             <Link
               key={index}
-              to={item.link}
+              to={getCategoryLink(item)}
               className="group flex flex-col items-center justify-start transition-transform duration-300 transform hover:-translate-y-1 w-full"
             >
               {/* 3D Pod / Circular Container */}

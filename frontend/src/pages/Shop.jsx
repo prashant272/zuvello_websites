@@ -361,7 +361,7 @@ const Shop = () => {
                                 <p className="text-gray-500 font-medium text-[15px]">No products match your filters.</p>
                                 <button 
                                     onClick={() => {
-                                        setSelectedCategory('All');
+                                        navigate('/shop');
                                         setSelectedPriceRanges([]);
                                         setSelectedAges([]);
                                         setSelectedSizes([]);

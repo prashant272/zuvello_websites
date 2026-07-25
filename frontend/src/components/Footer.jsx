@@ -171,7 +171,7 @@ const Footer = () => {
                                 </li>
                                 <li className="flex items-center gap-3">
                                     <MessageCircle size={16} className="text-[#cf7e28] shrink-0" />
-                                    <span className="text-xs font-medium text-[#483d36]">zuvello874@gmail.com</span>
+                                    <span className="text-xs font-medium text-[#483d36]">zuvello879@gmail.com</span>
                                 </li>
                                 <li className="flex items-start gap-3">
                                     <MapPin size={16} className="text-[#cf7e28] shrink-0 mt-0.5" />
