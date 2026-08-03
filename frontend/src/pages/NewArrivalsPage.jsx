@@ -14,7 +14,6 @@ const NewArrivalsProductCard = ({ product }) => {
 
     return (
     <div className="bg-white rounded-[16px] overflow-hidden border border-gray-100 flex flex-col group transition-shadow hover:shadow-md h-full relative">
-      <SEO title="New Arrivals" />
             <div className="absolute top-3 left-3 bg-[#cf7e28] text-white text-[10px] font-bold px-3 py-1 rounded-md z-10 shadow-sm tracking-wide">New</div>
             <div className="relative h-44 bg-[#fbf9f6] flex items-center justify-center overflow-hidden">
                 <button className="absolute top-3 right-3 text-gray-400 hover:text-red-500 z-10 p-1.5 bg-white/50 rounded-full backdrop-blur-sm">
@@ -93,8 +92,31 @@ const NewArrivalsPage = () => {
         );
     }
 
+    const itemListSchema = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "itemListElement": currentProducts.map((product, index) => ({
+            "@type": "ListItem",
+            "position": index + 1,
+            "url": `https://www.zuvello.in/product/${product.slug || product._id}`
+        }))
+    };
+
+    const collectionSchema = {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "Zuvello New Arrivals",
+        "description": "Check out our latest collection of new soft toys.",
+        "url": "https://www.zuvello.in/new-arrivals"
+    };
+
     return (
         <div className="bg-[#fdfdfc] min-h-screen font-sans">
+            <SEO 
+                title="New Arrivals"
+                description="Check out our latest collection of new soft toys."
+                schema={[collectionSchema, itemListSchema]}
+            />
             {/* Premium Full-Width Header */}
             <div className="bg-[#fcfaf6] w-full py-4 relative overflow-hidden border-b border-[#f5eadb]">
                 <div className="max-w-[1200px] mx-auto px-12 md:px-16 flex flex-row items-center justify-between relative z-10">

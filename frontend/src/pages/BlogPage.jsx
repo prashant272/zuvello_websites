@@ -24,14 +24,41 @@ const BlogPage = () => {
     if (loading) {
         return (
     <div className="pt-32 pb-24 max-w-7xl mx-auto px-4 flex items-center justify-center min-h-screen">
-      <SEO title="Blog" />
                 <div className="w-16 h-16 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
             </div>
         );
     }
 
+    const blogSchema = {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": "Zuvello Blog - Insights & Stories",
+        "description": "Explore premium recipes, organic living, and wellness wisdom.",
+        "url": "https://www.zuvello.in/blog",
+        "blogPost": blogs.map(blog => ({
+            "@type": "BlogPosting",
+            "headline": blog.title,
+            "url": `https://www.zuvello.in/blog/${blog.slug}`
+        }))
+    };
+
+    const itemListSchema = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "itemListElement": blogs.map((blog, index) => ({
+            "@type": "ListItem",
+            "position": index + 1,
+            "url": `https://www.zuvello.in/blog/${blog.slug}`
+        }))
+    };
+
     return (
   <div className="relative pt-32 pb-24 min-h-screen overflow-hidden bg-amber-50">
+      <SEO 
+          title="Blog - Insights & Stories" 
+          description="Explore premium recipes, organic living, and wellness wisdom."
+          schema={[blogSchema, itemListSchema]} 
+      />
 
     {/* Soft Luxury Background Glows */}
     <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-amber-300/20 rounded-full blur-[150px]"></div>

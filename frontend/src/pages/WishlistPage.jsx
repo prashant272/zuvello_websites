@@ -10,7 +10,7 @@ const WishlistPage = () => {
 
     return (
     <div className="bg-white min-h-screen font-sans pb-20">
-      <SEO title="Wishlist" />
+      <SEO title="Wishlist" noindex={true} />
             <div className="w-full h-1 bg-[#f5eadb]"></div>
             
             <div className="max-w-[1300px] mx-auto px-4 md:px-8 py-8 md:py-12">

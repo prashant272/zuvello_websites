@@ -60,7 +60,7 @@ const MyOrders = () => {
 
     if (loading) return (
     <div className="pt-32 pb-24 min-h-screen bg-[#fdfaf7] flex items-center justify-center">
-      <SEO title="My Orders" />
+      <SEO title="My Orders" noindex={true} />
             <div className="w-12 h-12 border-4 border-[#cf7e28] border-t-transparent rounded-full animate-spin"></div>
         </div>
     );

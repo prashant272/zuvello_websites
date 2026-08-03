@@ -13,7 +13,18 @@ const ContactUs = () => {
 
     return (
     <div className="pt-4 pb-20 min-h-screen bg-[#fdfaf7] font-sans">
-      <SEO title="Contact Us" />
+      <SEO 
+        title="Contact Us" 
+        description="Get in touch with the Zuvello team. We're here to help with your premium plushies and toy orders."
+        keywords={["contact zuvello", "zuvello customer support", "toy store contact"]}
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          "name": "Contact Zuvello",
+          "description": "Contact our customer happiness team for any inquiries about our plushies and soft toys.",
+          "url": "https://www.zuvello.in/contact"
+        }}
+      />
             <div className="max-w-6xl mx-auto px-4">
                 <div className="text-center mb-12">
                     <h1 className="text-4xl md:text-5xl font-black text-[#1c1c1c] tracking-tight mb-4">Contact Zuvello</h1>

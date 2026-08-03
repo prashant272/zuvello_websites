@@ -4,20 +4,19 @@ import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { Heart, Star, ChevronDown, ChevronRight, Filter, ChevronLeft } from 'lucide-react';
 import { API_BASE_URL } from '../api';
 import { useCart } from '../contexts/CartContext';
-import teddyBanner from '../assets/teddy_banner.png';
+import teddyBanner from '../assets/teddy_banner1.png';
 import SEO from '../components/SEO';
 
 const ShopProductCard = ({ product }) => {
     const { _id, slug, name, price, images, rating = 4.8 } = product;
     const { addToCart } = useCart();
-    
+
     // Simulate original price & discount
     const originalPrice = price === 699 ? 1299 : price === 698 ? 1299 : price + Math.floor(price * 0.86);
     const discount = Math.round(((originalPrice - price) / originalPrice) * 100);
 
     return (
-    <div className="bg-white rounded-[16px] overflow-hidden border border-gray-100 flex flex-col group transition-shadow hover:shadow-md h-full">
-      <SEO title="Shop" />
+        <div className="bg-white rounded-[16px] overflow-hidden border border-gray-100 flex flex-col group transition-shadow hover:shadow-md h-full">
             <div className="relative h-44 bg-[#fbf9f6] flex items-center justify-center overflow-hidden">
                 <button className="absolute top-3 right-3 text-gray-400 hover:text-red-500 z-10 p-1.5 bg-white/50 rounded-full backdrop-blur-sm">
                     <Heart size={16} />
@@ -30,12 +29,12 @@ const ShopProductCard = ({ product }) => {
                     />
                 </Link>
             </div>
-            
+
             <div className="p-4 flex flex-col gap-2 flex-1 bg-white">
                 <Link to={`/product/${slug || _id}`}>
                     <h3 className="font-bold text-[#1c1c1c] text-sm md:text-[15px] leading-tight line-clamp-1">{name}</h3>
                 </Link>
-                
+
                 <div className="flex items-center gap-1">
                     <Star size={12} className="text-[#cf7e28] fill-current" />
                     <Star size={12} className="text-[#cf7e28] fill-current" />
@@ -44,14 +43,14 @@ const ShopProductCard = ({ product }) => {
                     <Star size={12} className="text-[#cf7e28] fill-current" />
                     <span className="text-[11px] text-gray-400 ml-1">({rating})</span>
                 </div>
-                
+
                 <div className="flex flex-col mt-auto pt-2 gap-3">
                     <div className="flex items-baseline gap-2">
                         <span className="text-lg font-black text-[#1c1c1c]">₹{price}</span>
                         <span className="text-xs font-bold text-gray-400 line-through">₹{originalPrice}</span>
                         <span className="text-xs font-bold text-[#cf7e28] ml-auto">{discount}% OFF</span>
                     </div>
-                    <button 
+                    <button
                         onClick={() => addToCart(product)}
                         className="w-full bg-black hover:bg-gray-800 text-white font-bold py-2 rounded-lg text-xs transition-colors"
                     >
@@ -69,11 +68,11 @@ const Shop = () => {
     const [categoriesList, setCategoriesList] = useState([]);
     const [loading, setLoading] = useState(true);
     const [priceRange, setPriceRange] = useState(5999);
-    
+
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 8;
-    
+
     // Filters state
     const [selectedPriceRanges, setSelectedPriceRanges] = useState([]);
     const [selectedAges, setSelectedAges] = useState([]);
@@ -81,11 +80,11 @@ const Shop = () => {
 
     const location = useLocation();
     const navigate = useNavigate();
-    
+
     const searchParams = new URLSearchParams(location.search);
     const selectedCategory = searchParams.get('category') || 'All';
     const searchQuery = searchParams.get('search') || '';
-    
+
     useEffect(() => {
         const fetchInitialData = async () => {
             try {
@@ -93,10 +92,10 @@ const Shop = () => {
                     axios.get(`${API_BASE_URL}/products`),
                     axios.get(`${API_BASE_URL}/categories`)
                 ]);
-                
+
                 setProducts(productsRes.data);
                 setFilteredProducts(productsRes.data);
-                
+
                 if (categoriesRes.data && Array.isArray(categoriesRes.data)) {
                     setCategoriesList(categoriesRes.data.map(cat => cat.name));
                 }
@@ -125,8 +124,8 @@ const Shop = () => {
         // Search query filter
         if (searchQuery) {
             const lowerQuery = searchQuery.toLowerCase();
-            updated = updated.filter(p => 
-                p.name.toLowerCase().includes(lowerQuery) || 
+            updated = updated.filter(p =>
+                p.name.toLowerCase().includes(lowerQuery) ||
                 (p.description && p.description.toLowerCase().includes(lowerQuery))
             );
         }
@@ -160,7 +159,7 @@ const Shop = () => {
                 return selectedSizes.some(s => s.toLowerCase().includes(p.size.toLowerCase()));
             });
         }
-        
+
         // Apply slider filter
         updated = updated.filter(p => p.price <= priceRange);
 
@@ -192,10 +191,33 @@ const Shop = () => {
         );
     }
 
+    const itemListSchema = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "itemListElement": currentProducts.map((product, index) => ({
+            "@type": "ListItem",
+            "position": index + 1,
+            "url": `https://www.zuvello.in/product/${product.slug || product._id}`
+        }))
+    };
+
+    const collectionSchema = {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "Shop All Premium Plushies",
+        "description": "Browse Zuvello's full collection of soft toys, teddy bears, and premium plushies.",
+        "url": "https://www.zuvello.in/shop"
+    };
+
     return (
         <div className="bg-[#fdfdfc] min-h-screen pt-8 pb-20 font-sans">
+            <SEO
+                title="Shop All Premium Plushies"
+                description="Browse Zuvello's full collection of soft toys, teddy bears, and premium plushies."
+                schema={[collectionSchema, itemListSchema]}
+            />
             <div className="max-w-[1400px] mx-auto px-4 md:px-8">
-                
+
                 {/* Breadcrumb */}
                 <div className="text-[13px] text-gray-500 mb-6 flex items-center gap-2 font-medium">
                     <Link to="/" className="hover:text-[#b58145]">Home</Link>
@@ -204,23 +226,23 @@ const Shop = () => {
                 </div>
 
                 <div className="flex flex-col lg:flex-row gap-8">
-                    
+
                     {/* Left Sidebar */}
                     <aside className="w-full lg:w-[260px] flex-shrink-0 space-y-8">
-                        
+
                         {/* Categories Box */}
                         <div className="bg-[#fcfaf7] rounded-2xl p-6 border border-[#f0ebe1]">
                             <h3 className="font-extrabold text-[15px] text-[#1c1c1c] mb-4">Categories</h3>
                             <ul className="space-y-3">
-                                <li 
+                                <li
                                     onClick={() => handleCategoryClick('All')}
                                     className={`cursor-pointer text-[14px] transition-colors ${selectedCategory === 'All' ? 'text-black font-extrabold' : 'text-gray-700 font-bold hover:text-black'}`}
                                 >
                                     All Categories
                                 </li>
                                 {categoriesList.map(cat => (
-                                    <li 
-                                        key={cat} 
+                                    <li
+                                        key={cat}
                                         onClick={() => handleCategoryClick(cat)}
                                         className={`cursor-pointer text-[14px] transition-colors ${selectedCategory === cat ? 'text-black font-extrabold' : 'text-gray-700 font-bold hover:text-black'}`}
                                     >
@@ -233,7 +255,7 @@ const Shop = () => {
                         {/* Filter Section */}
                         <div className="bg-[#fcfaf7] rounded-2xl p-6 border border-[#f0ebe1]">
                             <h3 className="font-extrabold text-[15px] text-[#1c1c1c] mb-6">Filter By</h3>
-                            
+
                             {/* Price Filter */}
                             <div className="mb-8">
                                 <div className="flex justify-between items-center mb-3 cursor-pointer">
@@ -243,8 +265,8 @@ const Shop = () => {
                                 <div className="space-y-2.5">
                                     {priceFilters.map(filter => (
                                         <label key={filter} className="flex items-center gap-3 cursor-pointer group">
-                                            <input 
-                                                type="checkbox" 
+                                            <input
+                                                type="checkbox"
                                                 className="w-4 h-4 rounded border-gray-400 text-black focus:ring-black accent-black"
                                                 checked={selectedPriceRanges.includes(filter)}
                                                 onChange={() => handleToggle(setSelectedPriceRanges, selectedPriceRanges, filter)}
@@ -253,12 +275,12 @@ const Shop = () => {
                                         </label>
                                     ))}
                                 </div>
-                                
+
                                 <div className="mt-6">
-                                    <input 
-                                        type="range" 
-                                        min="199" max="5999" 
-                                        value={priceRange} 
+                                    <input
+                                        type="range"
+                                        min="199" max="5999"
+                                        value={priceRange}
                                         onChange={(e) => setPriceRange(e.target.value)}
                                         className="w-full h-1.5 bg-[#e5dfd5] rounded-lg appearance-none cursor-pointer accent-[#b58145]"
                                     />
@@ -278,8 +300,8 @@ const Shop = () => {
                                 <div className="space-y-2.5">
                                     {ageFilters.map(filter => (
                                         <label key={filter} className="flex items-center gap-3 cursor-pointer group">
-                                            <input 
-                                                type="checkbox" 
+                                            <input
+                                                type="checkbox"
                                                 className="w-4 h-4 rounded border-gray-400 text-black focus:ring-black accent-black"
                                                 checked={selectedAges.includes(filter)}
                                                 onChange={() => handleToggle(setSelectedAges, selectedAges, filter)}
@@ -299,8 +321,8 @@ const Shop = () => {
                                 <div className="space-y-2.5">
                                     {sizeFilters.map(filter => (
                                         <label key={filter} className="flex items-center gap-3 cursor-pointer group">
-                                            <input 
-                                                type="checkbox" 
+                                            <input
+                                                type="checkbox"
                                                 className="w-4 h-4 rounded border-gray-400 text-black focus:ring-black accent-black"
                                                 checked={selectedSizes.includes(filter)}
                                                 onChange={() => handleToggle(setSelectedSizes, selectedSizes, filter)}
@@ -316,7 +338,7 @@ const Shop = () => {
 
                     {/* Right Content */}
                     <div className="flex-1 flex flex-col gap-6">
-                        
+
                         {/* Banner */}
                         <div className="bg-[#f9ecd8] rounded-[24px] overflow-hidden flex flex-col md:flex-row relative h-auto md:h-[280px]">
                             <div className="p-8 md:p-12 flex-1 flex flex-col justify-center z-10">
@@ -359,7 +381,7 @@ const Shop = () => {
                         {filteredProducts.length === 0 ? (
                             <div className="bg-white rounded-2xl p-16 text-center border border-gray-100 mt-4 shadow-sm flex flex-col items-center justify-center">
                                 <p className="text-gray-500 font-medium text-[15px]">No products match your filters.</p>
-                                <button 
+                                <button
                                     onClick={() => {
                                         navigate('/shop');
                                         setSelectedPriceRanges([]);
@@ -379,20 +401,20 @@ const Shop = () => {
                                         <ShopProductCard key={product._id} product={product} />
                                     ))}
                                 </div>
-                                
+
                                 {/* Pagination */}
                                 {totalPages > 1 && (
                                     <div className="flex justify-center items-center gap-2 mt-12 mb-8">
-                                        <button 
+                                        <button
                                             onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                                             disabled={currentPage === 1}
                                             className="w-8 h-8 rounded-full bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 flex items-center justify-center font-bold text-xs shadow-sm disabled:opacity-50"
                                         >
                                             <ChevronLeft size={14} />
                                         </button>
-                                        
+
                                         {[...Array(totalPages)].map((_, i) => (
-                                            <button 
+                                            <button
                                                 key={i + 1}
                                                 onClick={() => setCurrentPage(i + 1)}
                                                 className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs shadow-sm ${currentPage === i + 1 ? 'bg-black text-white' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'}`}
@@ -400,8 +422,8 @@ const Shop = () => {
                                                 {i + 1}
                                             </button>
                                         ))}
-                                        
-                                        <button 
+
+                                        <button
                                             onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                                             disabled={currentPage === totalPages}
                                             className="w-8 h-8 rounded-full bg-white border border-gray-200 text-black hover:bg-[#fcfaf7] flex items-center justify-center shadow-sm disabled:opacity-50"
@@ -412,7 +434,7 @@ const Shop = () => {
                                 )}
                             </>
                         )}
-                        
+
                     </div>
                 </div>
             </div>

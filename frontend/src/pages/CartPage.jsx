@@ -53,7 +53,7 @@ const CartPage = () => {
     if (cartItems.length === 0) {
         return (
     <div className="pt-32 pb-24 min-h-screen bg-gray-50 flex flex-col items-center justify-center px-4">
-      <SEO title="Cart" />
+      <SEO title="Cart" noindex={true} />
                 <ShoppingBag className="w-20 h-20 text-gray-300 mb-6" />
                 <h2 className="text-3xl font-black text-gray-900 mb-4">Your cart is empty</h2>
                 <p className="text-gray-500 mb-8 text-center max-w-md">
@@ -85,7 +85,7 @@ const CartPage = () => {
                                 className="bg-white border border-gray-100 rounded-3xl p-6 flex flex-col md:flex-row items-center gap-6 group hover:shadow-md transition-all"
                             >
                                 <div className="w-24 h-24 rounded-2xl overflow-hidden bg-gray-100 shrink-0">
-                                    <img src={item.images[0]} alt={item.name} className="w-full h-full object-cover" />
+                                    <img src={item.images && item.images.length > 0 ? item.images[0] : 'https://via.placeholder.com/150'} alt={item.name} className="w-full h-full object-cover" />
                                 </div>
                                 <div className="flex-1 text-center md:text-left">
                                     <h3 className="text-xl font-bold text-gray-900 mb-1">{item.name}</h3>

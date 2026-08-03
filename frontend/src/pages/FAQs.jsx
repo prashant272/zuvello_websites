@@ -30,7 +30,22 @@ const FAQs = () => {
 
     return (
     <div className="pt-4 pb-20 min-h-screen bg-[#fdfaf7] font-sans">
-      <SEO title="F A Qs" />
+      <SEO 
+        title="FAQs" 
+        description="Find answers to common questions about Zuvello's premium plushies, shipping, safety, and more."
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": faqs.map(faq => ({
+            "@type": "Question",
+            "name": faq.question,
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": faq.answer
+            }
+          }))
+        }}
+      />
             <div className="max-w-3xl mx-auto px-4">
                 <div className="text-center mb-12">
                     <h1 className="text-4xl md:text-5xl font-black text-[#1c1c1c] tracking-tight mb-4">Frequently Asked Questions</h1>

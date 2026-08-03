@@ -11,7 +11,39 @@ import SEO from '../components/SEO';
 const Home = () => {
   return (
     <main className="bg-white min-h-screen">
-      <SEO title="Home" />
+      <SEO
+        title="Home"
+        schema={[
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "url": "https://www.zuvello.in/",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://www.zuvello.in/shop?q={search_term_string}",
+              "query-input": "required name=search_term_string"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Zuvello",
+            "url": "https://www.zuvello.in",
+            "logo": "https://www.zuvello.in/logo.png",
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "telephone": "+91-8506847545",
+              "contactType": "customer service",
+              "areaServed": "IN",
+              "availableLanguage": "en"
+            },
+            "sameAs": [
+              "https://www.instagram.com/zuvello.in/",
+              "https://www.facebook.com/zuvello.in/"
+            ]
+          }
+        ]}
+      />
       {/* 1. Hero Section */}
       <Hero />
 

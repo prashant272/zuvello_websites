@@ -10,7 +10,7 @@ const SuccessPage = () => {
 
     return (
     <div className="min-h-[calc(100vh-80px)] bg-[#fdfaf7] flex flex-col items-center justify-start pt-16 pb-16 px-4 text-center font-sans">
-      <SEO title="Success" />
+      <SEO title="Success" noindex={true} />
             {/* Animated Celebration Icon */}
             <div className="relative mb-10">
                 <div className="absolute inset-0 bg-[#cf7e28]/20 blur-2xl rounded-full animate-pulse"></div>
