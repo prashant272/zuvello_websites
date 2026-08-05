@@ -16,7 +16,6 @@ const PaymentPage = () => {
         try {
             setLoading(true);
             const shippingAddress = JSON.parse(localStorage.getItem('shippingAddress'));
-            const userInfo = JSON.parse(localStorage.getItem('userInfo')); // Get from Login state
             const token = localStorage.getItem('userToken');
 
             const appliedCoupon = JSON.parse(localStorage.getItem('appliedCoupon'));
@@ -37,9 +36,16 @@ const PaymentPage = () => {
                 couponCode: appliedCoupon ? appliedCoupon.code : null,
             };
 
+            const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
             const { data } = await axios.post(`${API_BASE_URL}/orders`, orderData, {
-                headers: { Authorization: `Bearer ${token}` }
+                headers
             });
+
+            if (data.newUserToken && data.newUserInfo) {
+                localStorage.setItem('userToken', data.newUserToken);
+                localStorage.setItem('userInfo', JSON.stringify(data.newUserInfo));
+            }
 
             clearCart();
             localStorage.removeItem('shippingAddress');
@@ -54,8 +60,8 @@ const PaymentPage = () => {
     };
 
     return (
-    <div className="pt-24 pb-24 min-h-screen bg-gray-50 flex items-center justify-center px-4">
-      <SEO title="Payment" />
+        <div className="pt-24 pb-24 min-h-screen bg-gray-50 flex items-center justify-center px-4">
+            <SEO title="Payment" />
             <div className="max-w-xl w-full">
                 <button
                     onClick={() => navigate('/checkout/address')}

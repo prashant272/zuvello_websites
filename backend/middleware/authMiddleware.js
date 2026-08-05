@@ -36,3 +36,24 @@ export const admin = (req, res, next) => {
         res.status(401).json({ message: 'Not authorized as an admin' });
     }
 };
+
+export const optionalAuth = async (req, res, next) => {
+    let token;
+    if (
+        req.headers.authorization &&
+        req.headers.authorization.startsWith('Bearer')
+    ) {
+        try {
+            token = req.headers.authorization.split(' ')[1];
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            if (decoded.role === 'admin' && !decoded.id) {
+                req.user = { role: 'admin', name: 'Master Admin' };
+            } else {
+                req.user = await User.findById(decoded.id).select('-password');
+            }
+        } catch (error) {
+            console.error('optionalAuth Error:', error);
+        }
+    }
+    next();
+};
