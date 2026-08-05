@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
-import { MapPin, Phone, User, ArrowRight, ArrowLeft } from 'lucide-react';
+import { MapPin, Phone, User, ArrowRight, ArrowLeft, Mail } from 'lucide-react';
 import SEO from '../components/SEO';
 
 const AddressPage = () => {
@@ -11,6 +11,7 @@ const AddressPage = () => {
         const savedAddress = localStorage.getItem('shippingAddress');
         return savedAddress ? JSON.parse(savedAddress) : {
             name: '',
+            email: '',
             phone: '',
             city: '',
             postalCode: '',
@@ -21,11 +22,6 @@ const AddressPage = () => {
     useEffect(() => {
         if (cartItems.length === 0) {
             navigate('/cart');
-        }
-        // Check authentication
-        const token = localStorage.getItem('userToken');
-        if (!token) {
-            navigate('/login?redirect=checkout/address');
         }
     }, [cartItems, navigate]);
 
@@ -69,6 +65,21 @@ const AddressPage = () => {
                                     className="w-full bg-[#fdfaf7] border border-[#f5eadb] rounded-xl py-3.5 pl-11 pr-4 text-[14px] font-bold text-black placeholder-gray-400 focus:bg-white focus:border-[#cf7e28] focus:ring-1 focus:ring-[#cf7e28] outline-none transition-all"
                                     value={formData.name}
                                     onChange={e => setFormData({ ...formData, name: e.target.value })}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="space-y-1.5">
+                            <label className="text-[13px] font-extrabold text-black">Email Address</label>
+                            <div className="relative group">
+                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-[#cf7e28] transition-colors" />
+                                <input
+                                    required
+                                    type="email"
+                                    placeholder="Enter your email"
+                                    className="w-full bg-[#fdfaf7] border border-[#f5eadb] rounded-xl py-3.5 pl-11 pr-4 text-[14px] font-bold text-black placeholder-gray-400 focus:bg-white focus:border-[#cf7e28] focus:ring-1 focus:ring-[#cf7e28] outline-none transition-all"
+                                    value={formData.email}
+                                    onChange={e => setFormData({ ...formData, email: e.target.value })}
                                 />
                             </div>
                         </div>

@@ -69,13 +69,7 @@ const ProductDetails = () => {
 
     const handleBuyNow = () => {
         addToCart({ ...product, selectedSize, quantity });
-        
-        const userInfo = localStorage.getItem('userInfo');
-        if (userInfo) {
-            navigate('/checkout/address');
-        } else {
-            navigate('/login?redirect=/checkout/address');
-        }
+        navigate('/checkout/address');
     };
 
     return (

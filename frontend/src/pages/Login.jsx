@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { Mail, Lock, Eye, EyeOff, Loader2, LogIn } from 'lucide-react';
+import { Mail, Loader2, LogIn } from 'lucide-react';
 import { API_BASE_URL } from '../api';
 import SEO from '../components/SEO';
 
 const Login = () => {
-    const [formData, setFormData] = useState({
-        email: '',
-        password: ''
-    });
-    const [showPassword, setShowPassword] = useState(false);
+    const [identifier, setIdentifier] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
@@ -24,22 +20,21 @@ const Login = () => {
 
         try {
             setLoading(true);
-            const { data } = await axios.post(`${API_BASE_URL}/auth/login`, formData);
+            const { data } = await axios.post(`${API_BASE_URL}/auth/passwordless-login`, { identifier });
 
             localStorage.setItem('userToken', data.token);
             localStorage.setItem('userInfo', JSON.stringify(data));
             navigate(redirect);
         } catch (error) {
-            setError(error.response?.data?.message || 'Invalid email or password');
+            setError(error.response?.data?.message || 'Invalid email or phone number');
         } finally {
             setLoading(false);
         }
     };
 
-    
-        return (
-    <div className="min-h-[calc(100vh-80px)] flex items-start justify-center bg-[#fdfaf7] px-4 pt-10 pb-16 font-sans">
-      <SEO title="Login" />
+    return (
+        <div className="min-h-[calc(100vh-80px)] flex items-start justify-center bg-[#fdfaf7] px-4 pt-10 pb-16 font-sans">
+            <SEO title="Login" />
             <div className="w-full max-w-[420px]">
                 {/* Header */}
                 <div className="text-center mb-8">
@@ -56,51 +51,21 @@ const Login = () => {
                     )}
 
                     <form onSubmit={handleSubmit} className="space-y-5">
-                        {/* Email */}
+                        {/* Identifier */}
                         <div className="space-y-2">
                             <label className="text-[13px] font-extrabold text-black">
-                                Email Address
+                                Email Address or Mobile Number
                             </label>
                             <div className="relative group">
                                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-[#cf7e28] transition-colors" />
                                 <input
                                     required
-                                    type="email"
-                                    placeholder="your@email.com"
-                                    value={formData.email}
-                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                    type="text"
+                                    placeholder="Enter Email or Phone"
+                                    value={identifier}
+                                    onChange={(e) => setIdentifier(e.target.value)}
                                     className="w-full bg-[#fdfaf7] border border-[#f5eadb] rounded-xl py-3.5 pl-11 pr-4 text-[14px] font-bold text-black placeholder-gray-400 focus:bg-white focus:border-[#cf7e28] focus:ring-1 focus:ring-[#cf7e28] outline-none transition-all"
                                 />
-                            </div>
-                        </div>
-
-                        {/* Password */}
-                        <div className="space-y-2">
-                            <div className="flex justify-between items-center">
-                                <label className="text-[13px] font-extrabold text-black">
-                                    Password
-                                </label>
-                                <button type="button" className="text-[12px] text-[#cf7e28] font-bold hover:underline">
-                                    Forgot Password?
-                                </button>
-                            </div>
-                            <div className="relative group">
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-[#cf7e28] transition-colors" />
-                                <input
-                                    required
-                                    type={showPassword ? "text" : "password"}
-                                    placeholder="••••••••"
-                                    value={formData.password}
-                                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                    className="w-full bg-[#fdfaf7] border border-[#f5eadb] rounded-xl py-3.5 pl-11 pr-11 text-[14px] font-bold text-black placeholder-gray-400 focus:bg-white focus:border-[#cf7e28] focus:ring-1 focus:ring-[#cf7e28] outline-none transition-all"
-                                />
-                                <button
-                                    type="button"
-                                    onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-                                >
-                                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                                </button>
                             </div>
                         </div>
 
@@ -127,8 +92,6 @@ const Login = () => {
             </div>
         </div>
     );
-
-
 };
 
 export default Login;

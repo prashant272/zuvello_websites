@@ -33,6 +33,37 @@ export const authUser = async (req, res) => {
     }
 };
 
+// @desc    Passwordless Auth user & get token
+// @route   POST /api/auth/passwordless-login
+// @access  Public
+export const passwordlessLogin = async (req, res) => {
+    const { identifier } = req.body; // can be email or phone
+
+    if (!identifier) {
+        return res.status(400).json({ message: 'Please provide email or phone number' });
+    }
+
+    try {
+        const user = await User.findOne({
+            $or: [{ email: identifier }, { phone: identifier }]
+        });
+
+        if (user) {
+            res.json({
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                token: generateToken(user._id),
+            });
+        } else {
+            res.status(404).json({ message: 'User not found. Please register or check out to create an account.' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 // @desc    Register a new user
 // @route   POST /api/auth/register
 // @access  Public

@@ -1,4 +1,12 @@
 import Order from '../models/Order.js';
+import User from '../models/User.js';
+import jwt from 'jsonwebtoken';
+
+const generateToken = (id) => {
+    return jwt.sign({ id }, process.env.JWT_SECRET, {
+        expiresIn: '30d',
+    });
+};
 
 // @desc    Create new order
 // @route   POST /api/orders
@@ -17,14 +25,53 @@ export const addOrderItems = async (req, res) => {
         if (orderItems && orderItems.length === 0) {
             return res.status(400).json({ message: 'No order items' });
         } else {
-            if (!req.user || !req.user._id) {
-                console.error("❌ Order Placement Failed: No User ID in request. User info:", req.user);
-                return res.status(401).json({ message: 'User not found. Please log in again.' });
+            let userId;
+            let token = null;
+            let userInfo = null;
+
+            if (req.user && req.user._id) {
+                userId = req.user._id;
+            } else {
+                // Guest checkout logic
+                const email = shippingAddress.email;
+                const phone = shippingAddress.phone;
+                const name = shippingAddress.name;
+
+                if (!email && !phone) {
+                    return res.status(400).json({ message: 'Email or phone number is required for checkout' });
+                }
+
+                // Check if user exists by email or phone
+                let user = await User.findOne({
+                    $or: [
+                        { email: email || 'invalid_email' },
+                        { phone: phone || 'invalid_phone' }
+                    ]
+                });
+
+                if (!user) {
+                    // Create new user
+                    user = await User.create({
+                        name: name,
+                        email: email || `${phone}@temp.com`, // Email is required in model, so generate one if not provided
+                        phone: phone,
+                    });
+                }
+
+                userId = user._id;
+                token = generateToken(user._id);
+                userInfo = {
+                    _id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    role: user.role,
+                    token: token,
+                };
             }
 
             const order = new Order({
                 orderItems,
-                user: req.user._id,
+                user: userId,
                 shippingAddress,
                 paymentMethod,
                 totalPrice,
@@ -40,9 +87,15 @@ export const addOrderItems = async (req, res) => {
                 ]
             });
 
-            console.log("📝 Creating order for user:", req.user._id);
+            console.log("📝 Creating order for user:", userId);
             const createdOrder = await order.save();
-            res.status(201).json(createdOrder);
+            
+            // Return order and optionally new user info
+            res.status(201).json({
+                ...createdOrder.toObject(),
+                newUserToken: token,
+                newUserInfo: userInfo
+            });
         }
     } catch (error) {
         console.error("❌ Create Order Error:", error);
