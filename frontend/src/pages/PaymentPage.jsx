@@ -60,10 +60,8 @@ const PaymentPage = () => {
     };
 
     return (
-    <div className="pt-24 pb-24 min-h-screen bg-gray-50 flex items-center justify-center px-4">
-      <SEO title="Payment" noindex={true} />
         <div className="pt-24 pb-24 min-h-screen bg-gray-50 flex items-center justify-center px-4">
-            <SEO title="Payment" />
+            <SEO title="Payment" noindex={true} />
             <div className="max-w-xl w-full">
                 <button
                     onClick={() => navigate('/checkout/address')}

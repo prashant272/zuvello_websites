@@ -132,21 +132,21 @@ const ProductDetails = () => {
                                         : 'border-transparent bg-[#fcf9f5] hover:bg-white hover:border-[#cf7e28]/40 hover:shadow-sm'
                                     }`}
                                 >
-                                    <img src={img} alt={`Thumbnail ${idx}`} className="w-full h-full object-cover mix-blend-multiply p-1.5" />
+                                    <img src={img} alt={`Thumbnail ${idx}`} className="w-full h-full object-contain mix-blend-multiply p-1.5" />
                                 </button>
                             ))}
                         </div>
 
                         {/* Main Image */}
-                        <div className="flex-1 bg-white rounded-[32px] relative flex items-center justify-center border border-[#f5eadb] shadow-[0_8px_40px_rgba(0,0,0,0.03)] group overflow-hidden aspect-square">
+                        <div className="flex-1 bg-white rounded-[32px] relative flex items-center justify-center border border-[#f5eadb] shadow-[0_8px_40px_rgba(0,0,0,0.03)] group overflow-hidden">
                             {/* Ambient Glow */}
                             <div className="absolute inset-0 bg-gradient-to-tr from-[#cf7e28]/[0.02] to-transparent pointer-events-none"></div>
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-[#cf7e28]/5 rounded-full blur-[80px] pointer-events-none"></div>
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-[#cf7e28]/5 rounded-full blur-[80px] pointer-events-none z-0"></div>
                             
                             <img 
                                 src={images[selectedImage]} 
                                 alt={product.name} 
-                                className="absolute inset-0 w-full h-full object-cover mix-blend-multiply drop-shadow-2xl group-hover:scale-105 transition-transform duration-700 ease-out z-10" 
+                                className="w-full h-auto object-contain mix-blend-multiply drop-shadow-2xl group-hover:scale-105 transition-transform duration-700 ease-out z-10 relative" 
                             />
 
                             {/* Mobile Thumbnails */}
