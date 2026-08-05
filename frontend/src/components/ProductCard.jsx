@@ -46,7 +46,7 @@ const ProductCard = ({ product }) => {
                 />
 
                 {/* Wishlist Heart - Top Right (Always visible) */}
-                <button 
+                <button
                     onClick={(e) => {
                         e.stopPropagation();
                         e.preventDefault();

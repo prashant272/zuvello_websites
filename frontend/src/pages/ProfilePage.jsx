@@ -35,7 +35,7 @@ const ProfilePage = () => {
 
     return (
     <div className="min-h-screen bg-[#fdfaf7] pt-8 pb-20">
-      <SEO title="Profile" />
+      <SEO title="Profile" noindex={true} />
             <div className="container-custom max-w-4xl px-4">
                 <div className="mb-12">
                     <h1 className="text-4xl md:text-5xl font-black text-[#2a2a2a] mb-2 font-serif">

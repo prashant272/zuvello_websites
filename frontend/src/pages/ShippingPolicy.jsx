@@ -4,7 +4,10 @@ import SEO from '../components/SEO';
 const ShippingPolicy = () => {
     return (
     <div className="pt-4 pb-20 min-h-screen bg-[#fdfaf7] font-sans">
-      <SEO title="Shipping Policy" />
+      <SEO 
+        title="Shipping Policy"
+        description="Details on Zuvello's shipping rates, processing times, and delivery estimates across India."
+      />
             <div className="max-w-4xl mx-auto px-4">
                 <div className="text-center mb-12">
                     <h1 className="text-4xl md:text-5xl font-black text-[#1c1c1c] tracking-tight mb-4">Shipping Policy</h1>

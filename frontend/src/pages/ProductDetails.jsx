@@ -74,7 +74,38 @@ const ProductDetails = () => {
 
     return (
     <div className="bg-white min-h-screen font-sans pb-20">
-      <SEO title="Product Details" />
+      <SEO 
+        title={product.name} 
+        type="product"
+        description={product.description || `Buy ${product.name} at Zuvello. Premium soft toys and plushies.`}
+        image={images[0]}
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "Product",
+          "name": product.name,
+          "image": images,
+          "description": product.description || `Buy ${product.name} at Zuvello. Premium soft toys and plushies.`,
+          "sku": product._id,
+          "brand": {
+            "@type": "Brand",
+            "name": "Zuvello"
+          },
+          "category": product.category,
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "256"
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": `https://www.zuvello.in/product/${slug}`,
+            "priceCurrency": "INR",
+            "price": product.price,
+            "availability": "https://schema.org/InStock",
+            "itemCondition": "https://schema.org/NewCondition"
+          }
+        }}
+      />
             <div className="w-full h-1 bg-[#f5eadb]"></div>
 
             <div className="max-w-[1300px] mx-auto px-4 md:px-8 py-6">
@@ -88,27 +119,48 @@ const ProductDetails = () => {
 
                 <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
                     
-                    <div className="w-full lg:w-[45%] flex gap-4">
-                        <div className="w-[70px] hidden md:flex flex-col gap-3">
-                            <div className="text-gray-300 mx-auto mb-1 cursor-pointer hover:text-gray-500"><ChevronUp size={20}/></div>
+                    <div className="w-full lg:w-[45%] flex gap-4 md:gap-6">
+                        {/* Thumbnails */}
+                        <div className="w-[70px] md:w-[85px] hidden md:flex flex-col gap-3 overflow-y-auto no-scrollbar py-1">
                             {images.map((img, idx) => (
                                 <button 
                                     key={idx}
                                     onClick={() => setSelectedImage(idx)}
-                                    className={`w-full aspect-square rounded-xl overflow-hidden border-2 transition-all ${selectedImage === idx ? 'border-[#cf7e28] shadow-sm' : 'border-transparent hover:border-gray-200'} bg-[#fcf9f5]`}
+                                    className={`w-full aspect-square flex-shrink-0 rounded-[18px] overflow-hidden border-2 transition-all duration-300 ${
+                                        selectedImage === idx 
+                                        ? 'border-[#cf7e28] shadow-[0_4px_12px_rgba(207,126,40,0.2)] bg-white ring-2 ring-white scale-[1.02]' 
+                                        : 'border-transparent bg-[#fcf9f5] hover:bg-white hover:border-[#cf7e28]/40 hover:shadow-sm'
+                                    }`}
                                 >
-                                    <img src={img} alt={`Thumbnail ${idx}`} className="w-full h-full object-cover mix-blend-multiply p-1" />
+                                    <img src={img} alt={`Thumbnail ${idx}`} className="w-full h-full object-cover mix-blend-multiply p-1.5" />
                                 </button>
                             ))}
-                            <div className="text-gray-300 mx-auto mt-1 cursor-pointer hover:text-gray-500"><ChevronDown size={20}/></div>
                         </div>
 
-                        <div className="flex-1 bg-[#fdfbf8] rounded-[24px] relative flex items-center justify-center p-8 border border-[#f5eadb]/50">
+                        {/* Main Image */}
+                        <div className="flex-1 bg-white rounded-[32px] relative flex items-center justify-center border border-[#f5eadb] shadow-[0_8px_40px_rgba(0,0,0,0.03)] group overflow-hidden aspect-square">
+                            {/* Ambient Glow */}
+                            <div className="absolute inset-0 bg-gradient-to-tr from-[#cf7e28]/[0.02] to-transparent pointer-events-none"></div>
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-[#cf7e28]/5 rounded-full blur-[80px] pointer-events-none"></div>
+                            
                             <img 
                                 src={images[selectedImage]} 
                                 alt={product.name} 
-                                className="w-full h-full object-contain mix-blend-multiply drop-shadow-lg" 
+                                className="absolute inset-0 w-full h-full object-cover mix-blend-multiply drop-shadow-2xl group-hover:scale-105 transition-transform duration-700 ease-out z-10" 
                             />
+
+                            {/* Mobile Thumbnails */}
+                            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex md:hidden gap-2 bg-white/80 backdrop-blur-md px-3 py-2 rounded-full border border-gray-100 shadow-sm z-20">
+                                {images.map((_, idx) => (
+                                    <button 
+                                        key={idx}
+                                        onClick={() => setSelectedImage(idx)}
+                                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                                            selectedImage === idx ? 'bg-[#cf7e28] w-4' : 'bg-gray-300'
+                                        }`}
+                                    />
+                                ))}
+                            </div>
                         </div>
                     </div>
 

@@ -28,9 +28,21 @@ const OffersPage = () => {
         setTimeout(() => setCopiedCode(null), 2000);
     };
 
+    const collectionSchema = {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "Zuvello Offers & Coupons",
+        "description": "Discover our latest promotions and discount codes to save on your favorite premium soft toys.",
+        "url": "https://www.zuvello.in/offers"
+    };
+
     return (
     <div className="pt-8 pb-20 min-h-screen bg-[#fdfaf7] font-sans">
-      <SEO title="Offers" />
+      <SEO 
+          title="Exclusive Offers & Coupons" 
+          description="Discover our latest promotions and discount codes to save on your favorite premium soft toys."
+          schema={collectionSchema} 
+      />
             <div className="container-custom px-4 max-w-5xl">
                 <div className="text-center mb-12">
                     <h1 className="text-4xl md:text-5xl font-black text-[#2a2a2a] mb-4 font-serif">

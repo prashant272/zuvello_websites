@@ -4,7 +4,10 @@ import SEO from '../components/SEO';
 const ReturnPolicy = () => {
     return (
     <div className="pt-4 pb-20 min-h-screen bg-[#fdfaf7] font-sans">
-      <SEO title="Return Policy" />
+      <SEO 
+        title="Return Policy"
+        description="Learn about Zuvello's 15-Day Happiness Guarantee. Read our return and refund policy for soft toys."
+      />
             <div className="max-w-4xl mx-auto px-4">
                 <div className="text-center mb-12">
                     <h1 className="text-4xl md:text-5xl font-black text-[#1c1c1c] tracking-tight mb-4">Returns & Refunds</h1>

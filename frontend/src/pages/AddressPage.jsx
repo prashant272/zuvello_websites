@@ -33,7 +33,7 @@ const AddressPage = () => {
 
     return (
     <div className="min-h-[calc(100vh-80px)] bg-[#fdfaf7] flex items-start justify-center px-4 pt-10 pb-16 font-sans">
-      <SEO title="Address" />
+      <SEO title="Address" noindex={true} />
             <div className="max-w-xl w-full">
                 <button
                     onClick={() => navigate('/cart')}

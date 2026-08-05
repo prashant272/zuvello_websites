@@ -38,6 +38,32 @@ const BlogDetail = () => {
             className="relative pt-32 pb-24 min-h-screen"
             style={{ zIndex: 1 }}
         >
+            <SEO 
+                title={blog.title}
+                description={blog.excerpt}
+                image={blog.thumbnailUrl}
+                type="article"
+                schema={{
+                    "@context": "https://schema.org",
+                    "@type": "BlogPosting",
+                    "headline": blog.title,
+                    "image": blog.thumbnailUrl,
+                    "author": {
+                        "@type": "Person",
+                        "name": blog.author
+                    },
+                    "publisher": {
+                        "@type": "Organization",
+                        "name": "Zuvello",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "url": "https://www.zuvello.in/logo.png"
+                        }
+                    },
+                    "datePublished": blog.publishedDate ? new Date(blog.publishedDate).toISOString() : new Date().toISOString(),
+                    "description": blog.excerpt
+                }}
+            />
             {/* Luxurious Blurred Light background shapes to match DestinationPicker */}
             <div className="absolute -top-10 -left-20 w-96 h-96 bg-[#e7b56733] rounded-full blur-[110px] opacity-60 pointer-events-none z-0"></div>
             <div className="absolute bottom-0 -right-24 w-96 h-96 bg-[#fff8e1a0] rounded-full blur-[100px] opacity-50 z-0 pointer-events-none"></div>

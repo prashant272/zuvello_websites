@@ -4,7 +4,10 @@ import SEO from '../components/SEO';
 const TermsConditions = () => {
     return (
     <div className="pt-4 pb-20 min-h-screen bg-[#fdfaf7] font-sans">
-      <SEO title="Terms Conditions" />
+      <SEO 
+        title="Terms & Conditions"
+        description="Read the terms and conditions for shopping at Zuvello. Information regarding our policies, products, and services."
+      />
             <div className="max-w-4xl mx-auto px-4">
                 <div className="text-center mb-12">
                     <h1 className="text-4xl md:text-5xl font-black text-[#1c1c1c] tracking-tight mb-4">Terms & Conditions</h1>
